@@ -1,0 +1,19 @@
+@CHARSET "ISO-8859-1";
+
+.mis-match {
+	border-color: red;
+	box-shadow: 0 1px 1px red inset, 0 0 8px red;
+	outline: 0 none;
+}
+
+.weak {
+	border-color: yellow;
+	box-shadow: 0 1px 1px yellow inset, 0 0 8px yellow;
+	outline: 0 none;
+}
+
+.good {
+	border-color: green;
+	box-shadow: 0 1px 1px green inset, 0 0 8px green;
+	outline: 0 none;
+}
