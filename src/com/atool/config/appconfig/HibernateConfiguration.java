@@ -29,7 +29,7 @@ public class HibernateConfiguration {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] {"com.atool.models","com.atool.pojos"});
+		sessionFactory.setPackagesToScan(new String[] { "com.atool.pojos" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
 	}
