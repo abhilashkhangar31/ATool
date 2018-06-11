@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.atool.daos.UserAuthenticationDao;
-import com.atool.models.UserInformation;
 import com.atool.pojos.UserCredential;
+import com.atool.pojos.UserInformation;
 
 /**
  * @author abhilashk

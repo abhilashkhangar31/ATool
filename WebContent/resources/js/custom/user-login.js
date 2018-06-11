@@ -1,7 +1,7 @@
 /**
  * 
  */
-var ulSettings = {'REDIRECT_URL' : 'home'};
+var ulSettings = {'REDIRECT_URL' : 'home', '_cryptokey' : '' };
 
 //Fields to validate at the time of form submission.
 ulSettings.fieldsToValidate = ['#userId', '#password'];
@@ -24,7 +24,14 @@ $(document).ready(function() {
 	 * 
 	 */
 	$('#userLoginForm').submit(function() {
-		return globalSettings.validateEmptyFields(ulSettings.fieldsToValidate);
+		if( globalSettings.validateEmptyFields(ulSettings.fieldsToValidate) ) {
+			var passwordInput = $('#password');
+			ulSettings._cryptokey = $( "meta[name='_cryptokey']" ).attr("content");
+			var encryptedPassword = globalSettings.DoEncryption( passwordInput.val(), ulSettings._cryptokey )
+			passwordInput.val(encryptedPassword);
+			return true;
+		}
+		return false;
 	});
 	
 	/**

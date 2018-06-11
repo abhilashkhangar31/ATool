@@ -16,8 +16,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.atool.config.interceptors.ClientPasswordDecryptor;
 import com.atool.config.interceptors.NoScriptDetector;
 
 @Configuration
@@ -44,14 +48,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		// Request authorization settings.
 		http.authorizeRequests()
-				.antMatchers( "/", "/home", "/login", "/register/user", "/error" ).permitAll()
+				.antMatchers( "/", "/home", "/login", "/register/user", "/error", "/api/service/question/**" ).permitAll()
 				.anyRequest().authenticated().and()
 				.formLogin().loginPage("/login")
 				.loginProcessingUrl("/login/processLogin")
 				.defaultSuccessUrl("/login/processLogin", true)
 				.failureUrl("/login?error=true")
 				.usernameParameter("userId").passwordParameter("password").and()
-				.logout().logoutUrl("/logout").logoutSuccessUrl("/userLogin").clearAuthentication(true)
+				.logout().logoutUrl("/logout").logoutSuccessUrl("/userLogin").deleteCookies("JSESSIONID").clearAuthentication(true)
 				.invalidateHttpSession(true).and()
 				.csrf().disable()
 				.exceptionHandling()
@@ -65,6 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.sessionFixation().none();
 		
 		// Application filters.
+		http.addFilterBefore(clientPasswordDecryptor(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterAfter(noScriptDetector(), UsernamePasswordAuthenticationFilter.class);
 	}
 
@@ -89,6 +94,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationTrustResolver getAuthenticationTrustResolver() {
 		return new AuthenticationTrustResolverImpl();
+	}
+	
+	@Bean
+	public ClientPasswordDecryptor clientPasswordDecryptor() throws Exception {
+		ClientPasswordDecryptor decryptor = new ClientPasswordDecryptor();
+		decryptor.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login/processLogin", "POST"));
+		decryptor.setAuthenticationManager(authenticationManager());
+		decryptor.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("/login/processLogin"));
+		decryptor.setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error=true"));
+		decryptor.setUsernameParameter("userId");
+		decryptor.setPasswordParameter("password");
+		return decryptor;
 	}
 	
 	@Bean

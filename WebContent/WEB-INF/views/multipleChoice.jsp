@@ -87,11 +87,14 @@
 						
 					</div>
 					
-					<div class="col-sm-4 aq-panel-right">
+					<!-- Meta Information -->	
+					<jsp:include page="metaInformation.jsp"></jsp:include>
+					
+					<!-- <div class="col-sm-4 aq-panel-right">
 						<div class="aq-panel-head panel-heading" align="center"><span class="glyphicon glyphicon-question-sign"></span> Add Meta Info</div>
 						<br>
 						
-						<!-- Tags -->
+						Tags
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
@@ -105,7 +108,7 @@
 							</div>
 						</div>
 						
-						<!-- Difficulty Level -->
+						Difficulty Level
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
@@ -123,7 +126,7 @@
 							</div>
 						</div>
 						
-						<!-- Time to Solve -->
+						Time to Solve
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
@@ -139,7 +142,7 @@
 							</div>
 						</div>
 						
-						<!-- Answer Explanation -->
+						Answer Explanation
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
@@ -158,7 +161,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					
 				</div>
 			</form>

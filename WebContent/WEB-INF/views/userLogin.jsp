@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <!-- Viewport Meta Tag -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="_cryptokey" content="${requestScope._cryptokey}"/>
 <title>User Login</title>
 
 <!-- Website logo icon -->
@@ -124,6 +125,9 @@
 
 <!-- Bootstrap JS -->
 <script src="<c:url value='/resources/js/bootstrap.3.3.7.min.js'/>"></script>
+
+<!-- CryptoJS-AES Algorithm -->
+<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js'/>"></script>
 
 <script src="<c:url value='/resources/js/custom/global.js'/>"></script>
 <script src="<c:url value='/resources/js/custom/user-login.js'/>"></script>

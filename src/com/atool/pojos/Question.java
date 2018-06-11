@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name = "question")
-public class Question implements Serializable {
+public class Question<E extends com.atool.models.Question> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

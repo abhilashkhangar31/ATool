@@ -1,112 +1,69 @@
 package com.atool.models;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.springframework.stereotype.Component;
+import org.hibernate.validator.constraints.NotEmpty;
 
-@Component
-@Entity
-@Table(name="meta_info")
-public class MetaInfo implements Serializable {
+import com.atool.enums.DifficultyLevel;
 
-	private static final long serialVersionUID = 1L;
+public class MetaInfo {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="mi_id")
-	private Long metaInfoId;
-
-	private Timestamp lastmodified;
-
-	@Column(name="mi_value")
-	private String metaInfoValue;
-
-	@ManyToOne
-	@JoinColumn(name="mi_mt_id")
-	private MetaTag metaTag;
-
-	@ManyToOne
-	@JoinColumn(name="mi_q_id")
-	private Question question;
+	@NotEmpty
+	@Size(min = 1, max = 10)
+	private Set<@Size(min = 1, max = 20) String> tags;
 	
-	/**
-	 * 
-	 */
-	public MetaInfo() {
-		
+	@NotEmpty
+	private Set<DifficultyLevel> difficultyLevels;
+
+	@Min(value = 10000)
+	@Max(value = 3600000)
+	@NotNull
+	private long timeToSolve;
+
+	@Size(min = 5, max = 50)
+	private StringBuffer answerExplanation;
+
+	public Set<String> getTags() {
+		return tags;
 	}
 
-	/**
-	 * 
-	 * @param metaInfoId
-	 * @param lastmodified
-	 * @param metaInfoValue
-	 * @param metaTag
-	 * @param question
-	 */
-	public MetaInfo(Long metaInfoId, Timestamp lastmodified, String metaInfoValue, MetaTag metaTag, Question question) {
-		super();
-		this.metaInfoId = metaInfoId;
-		this.lastmodified = lastmodified;
-		this.metaInfoValue = metaInfoValue;
-		this.metaTag = metaTag;
-		this.question = question;
+	public void setTags(Set<String> tags) {
+		this.tags = tags;
 	}
 
-	public Long getMetaInfoId() {
-		return metaInfoId;
+	public Set<DifficultyLevel> getDifficultyLevels() {
+		return difficultyLevels;
 	}
 
-	public void setMetaInfoId(Long metaInfoId) {
-		this.metaInfoId = metaInfoId;
+	public void setDifficultyLevels(Set<DifficultyLevel> difficultyLevels) {
+		this.difficultyLevels = difficultyLevels;
 	}
 
-	public Timestamp getLastmodified() {
-		return lastmodified;
+	public long getTimeToSolve() {
+		return timeToSolve;
 	}
 
-	public void setLastmodified(Timestamp lastmodified) {
-		this.lastmodified = lastmodified;
+	public void setTimeToSolve(long timeToSolve) {
+		this.timeToSolve = timeToSolve;
 	}
 
-	public String getMetaInfoValue() {
-		return metaInfoValue;
+	public StringBuffer getAnswerExplanation() {
+		return answerExplanation;
 	}
 
-	public void setMetaInfoValue(String metaInfoValue) {
-		this.metaInfoValue = metaInfoValue;
-	}
-
-	public MetaTag getMetaTag() {
-		return metaTag;
-	}
-
-	public void setMetaTag(MetaTag metaTag) {
-		this.metaTag = metaTag;
-	}
-
-	public Question getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
+	public void setAnswerExplanation(StringBuffer answerExplanation) {
+		this.answerExplanation = answerExplanation;
 	}
 
 	@Override
 	public String toString() {
-		return "MetaInfo [metaInfoId=" + metaInfoId + ", lastmodified=" + lastmodified + ", metaInfoValue="
-				+ metaInfoValue + ", metaTag=" + metaTag + ", question=" + question + "]";
+		return "MetaInfo [tags=" + tags + ", difficultyLevels=" + difficultyLevels + ", timeToSolve=" + timeToSolve
+				+ ", answerExplanation=" + answerExplanation + "]";
 	}
 
 }

@@ -1,202 +1,95 @@
 package com.atool.models;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.atool.annotations.FieldRequiredIf;
+import com.atool.enums.QuestionCategory;
 
-import org.springframework.stereotype.Component;
+@FieldRequiredIf
+public class Question {
 
-/**
- * 
- * @author ABHILASH KHANGAR
- *
- */
-@Component
-@Entity
-@Table(name = "question")
-public class Question implements Serializable {
+	@NotNull(message = "Should define question category")
+	private QuestionCategory questionCategory;
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "q_id")
-	private Long questionId;
-	
-	@Column(name = "q_stmt")
-	private String questionStatement;
-	
-	private Timestamp creationtime;
+	@NotEmpty(message = "Question statement can not be empty")
+	@Size(min = 5, max = 500)
+	private StringBuffer questionStatement;
 
-	private Timestamp lastmodified;
-	
-	@OneToMany(mappedBy = "question")
-	private List<AnswerChoiceGroupMap> answerChoiceGroupMaps;
-	
-	@OneToMany(mappedBy = "question")
-	private List<CorrectAnswer> correctAnswers;
-	
-	@OneToMany(mappedBy = "question")
-	private List<MetaInfo> metaInfos;
-	
-	@OneToMany(mappedBy = "question")
-	private List<QuestionAnswerChoiceMap> questionAnswerChoiceMaps;
-	
-	@ManyToOne
-	@JoinColumn(name = "q_qt_id")
-	private QuestionType questionType;
-	
-	@OneToMany(mappedBy = "question")
-	private List<QuestionTagMap> questionTagMaps;
-	
-	@OneToMany(mappedBy = "question")
-	private List<QuestionTagBelongsToMap> questionTagBelongsToMaps;
-	
-	/**
-	 *
-	 */
-	public Question() {
-		this.creationtime = new Timestamp(new Date().getTime());
+	@Valid
+	private MetaInfo metaInfo;
+
+	private MultipleChoice multipleChoice;
+
+	private FillInTheBlanks fillInTheBlanks;
+
+	private TrueAndFalse trueAndFalse;
+
+	private MatchThePair matchThePair;
+
+	public QuestionCategory getQuestionCategory() {
+		return questionCategory;
 	}
 
-	/**
-	 * 
-	 * @param questionId
-	 * @param questionStatement
-	 * @param creationtime
-	 * @param lastmodified
-	 * @param answerChoiceGroupMaps
-	 * @param correctAnswers
-	 * @param metaInfos
-	 * @param questionAnswerChoiceMaps
-	 * @param questionType
-	 * @param questionTagMaps
-	 * @param aqQuestionToBelongsTos
-	 */
-	public Question(Long questionId, String questionStatement, Timestamp creationtime, Timestamp lastmodified,
-			List<AnswerChoiceGroupMap> answerChoiceGroupMaps, List<CorrectAnswer> correctAnswers,
-			List<MetaInfo> metaInfos, List<QuestionAnswerChoiceMap> questionAnswerChoiceMaps, QuestionType questionType,
-			List<QuestionTagMap> questionTagMaps, List<QuestionTagBelongsToMap> questionTagBelongsToMaps) {
-		super();
-		this.questionId = questionId;
-		this.questionStatement = questionStatement;
-		this.creationtime = creationtime;
-		this.lastmodified = lastmodified;
-		this.answerChoiceGroupMaps = answerChoiceGroupMaps;
-		this.correctAnswers = correctAnswers;
-		this.metaInfos = metaInfos;
-		this.questionAnswerChoiceMaps = questionAnswerChoiceMaps;
-		this.questionType = questionType;
-		this.questionTagMaps = questionTagMaps;
-		this.questionTagBelongsToMaps = questionTagBelongsToMaps;
+	public void setQuestionCategory(QuestionCategory questionCategory) {
+		this.questionCategory = questionCategory;
 	}
 
-	public Long getQuestionId() {
-		return questionId;
-	}
-
-	public void setQuestionId(Long questionId) {
-		this.questionId = questionId;
-	}
-
-	public String getQuestionStatement() {
+	public StringBuffer getQuestionStatement() {
 		return questionStatement;
 	}
 
-	public void setQuestionStatement(String questionStatement) {
+	public void setQuestionStatement(StringBuffer questionStatement) {
 		this.questionStatement = questionStatement;
 	}
 
-	public Timestamp getCreationtime() {
-		return creationtime;
+	public MetaInfo getMetaInfo() {
+		return metaInfo;
 	}
 
-	public void setCreationtime(Timestamp creationtime) {
-		this.creationtime = creationtime;
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.metaInfo = metaInfo;
 	}
 
-	public Timestamp getLastmodified() {
-		return lastmodified;
+	public MultipleChoice getMultipleChoice() {
+		return multipleChoice;
 	}
 
-	public void setLastmodified(Timestamp lastmodified) {
-		this.lastmodified = lastmodified;
+	public void setMultipleChoice(MultipleChoice multipleChoice) {
+		this.multipleChoice = multipleChoice;
 	}
 
-	public List<AnswerChoiceGroupMap> getAnswerChoiceGroupMaps() {
-		return answerChoiceGroupMaps;
+	public FillInTheBlanks getFillInTheBlanks() {
+		return fillInTheBlanks;
 	}
 
-	public void setAnswerChoiceGroupMaps(List<AnswerChoiceGroupMap> answerChoiceGroupMaps) {
-		this.answerChoiceGroupMaps = answerChoiceGroupMaps;
+	public void setFillInTheBlanks(FillInTheBlanks fillInTheBlanks) {
+		this.fillInTheBlanks = fillInTheBlanks;
 	}
 
-	public List<CorrectAnswer> getCorrectAnswers() {
-		return correctAnswers;
+	public TrueAndFalse getTrueAndFalse() {
+		return trueAndFalse;
 	}
 
-	public void setCorrectAnswers(List<CorrectAnswer> correctAnswers) {
-		this.correctAnswers = correctAnswers;
+	public void setTrueAndFalse(TrueAndFalse trueAndFalse) {
+		this.trueAndFalse = trueAndFalse;
 	}
 
-	public List<MetaInfo> getMetaInfos() {
-		return metaInfos;
+	public MatchThePair getMatchThePair() {
+		return matchThePair;
 	}
 
-	public void setMetaInfos(List<MetaInfo> metaInfos) {
-		this.metaInfos = metaInfos;
-	}
-
-	public List<QuestionAnswerChoiceMap> getQuestionAnswerChoiceMaps() {
-		return questionAnswerChoiceMaps;
-	}
-
-	public void setQuestionAnswerChoiceMaps(List<QuestionAnswerChoiceMap> questionAnswerChoiceMaps) {
-		this.questionAnswerChoiceMaps = questionAnswerChoiceMaps;
-	}
-
-	public QuestionType getQuestionType() {
-		return questionType;
-	}
-
-	public void setQuestionType(QuestionType questionType) {
-		this.questionType = questionType;
-	}
-
-	public List<QuestionTagMap> getQuestionTagMaps() {
-		return questionTagMaps;
-	}
-
-	public void setQuestionTagMaps(List<QuestionTagMap> questionTagMaps) {
-		this.questionTagMaps = questionTagMaps;
-	}
-
-	public List<QuestionTagBelongsToMap> getQuestionTagBelongsToMaps() {
-		return questionTagBelongsToMaps;
-	}
-
-	public void setQuestionTagBelongsToMaps(List<QuestionTagBelongsToMap> questionTagBelongsToMaps) {
-		this.questionTagBelongsToMaps = questionTagBelongsToMaps;
+	public void setMatchThePair(MatchThePair matchThePair) {
+		this.matchThePair = matchThePair;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", questionStatement=" + questionStatement + ", creationtime="
-				+ creationtime + ", lastmodified=" + lastmodified + ", answerChoiceGroupMaps=" + answerChoiceGroupMaps
-				+ ", correctAnswers=" + correctAnswers + ", metaInfos=" + metaInfos + ", questionAnswerChoiceMaps="
-				+ questionAnswerChoiceMaps + ", questionType=" + questionType + ", questionTagMaps=" + questionTagMaps
-				+ ", questionTagBelongsToMaps=" + questionTagBelongsToMaps + "]";
+		return "Question [questionCategory=" + questionCategory + ", questionStatement=" + questionStatement
+				+ ", metaInfo=" + metaInfo + ", multipleChoice=" + multipleChoice + ", fillInTheBlanks="
+				+ fillInTheBlanks + ", trueAndFalse=" + trueAndFalse + ", matchThePair=" + matchThePair + "]";
 	}
 
 }

@@ -59,4 +59,9 @@ $(function() {
 	ModifyElementProperty = function( element, properties ) {
 		$( element ).attr( properties );
 	}
+	
+	globalSettings.DoEncryption = function( param, key ) {
+		var encrypted = CryptoJS.AES.encrypt(param, key);
+		return encrypted.toString();
+	}
 });
